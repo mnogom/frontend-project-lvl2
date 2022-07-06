@@ -1,3 +1,13 @@
-import parse_args from './cli.js'
+import fs, { read } from 'fs';
 
-export default() => console.log('Hello')
+const readFile = (filepath) => {
+  const rawData = fs.readFileSync(filepath);
+  return JSON.parse(rawData);
+};
+
+const genDiff = (filepath1, filepath2) => {
+  const data1 = readFile(filepath1);
+  console.log(data1);
+};
+
+export default genDiff
