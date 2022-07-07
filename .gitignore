@@ -1,2 +1,4 @@
 /node_modules/
 /.idea
+/snippets/
+.DS_Store
