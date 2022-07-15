@@ -57,8 +57,12 @@ const buildTree = (data1, data2) => {
 };
 
 import readFile from './file_manager.js';
-let f1 = readFile('fixtures/file1.json');
-let f2 = readFile('fixtures/file2.json');
-console.log(
-  buildTree(f1, f2)
-);
+import renderJson from './renders/json.js';
+import renderPlain from './renders/plain.js';
+
+
+const f1 = readFile('fixtures/plain/file1.json');
+const f2 = readFile('fixtures/plain/file2.json');
+const diff = buildTree(f1, f2)
+
+console.log(renderPlain(diff))
