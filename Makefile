@@ -12,3 +12,6 @@ lint:
 
 sys-install:
 	npm link
+
+make test:
+	npx jest
