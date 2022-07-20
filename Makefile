@@ -15,3 +15,6 @@ sys-install:
 
 make test:
 	npm test
+
+make test-watch:
+	npx jest --watchAll

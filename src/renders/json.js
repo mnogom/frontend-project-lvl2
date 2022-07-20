@@ -1,5 +1,5 @@
-const renderJson = (data, defaultValue=null, indent=' ') => (
-  JSON.stringify(data.children, defaultValue, indent)
+const renderJson = (data, defaultValue=null, space=undefined) => (
+  JSON.stringify(data, defaultValue, space)
 );
 
 export default renderJson;

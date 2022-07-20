@@ -1,59 +1,58 @@
 import _ from 'lodash';
 
-const added = 'added';
-const removed = 'removed';
-const changed = 'changed';
-const unchanged = 'unchanged';
-const nested = 'nested';
+export const added = 'added';
+export const removed = 'removed';
+export const changed = 'changed';
+export const unchanged = 'unchanged';
+export const nested = 'nested';
 
 
-const buildTree = (data1, data2) => {
-  const inner = (key, node1, node2, parentNode1, parentNode2) => {
-    if (_.isObject(node1) && _.isObject(node2)) {
-      let keyBag = _.union(_.keys(node1), _.keys(node2)).sort()
-      return {
+const buildDiffTree = (node1, node2) => {
+  const keyBag = _.union(_.keys(node1), _.keys(node2)).sort()
+  const diff = []
+  
+  for (let key of keyBag) {
+    const oldValue = node1[key];
+    const newValue = node2[key];
+
+    if (_.isObject(oldValue) && _.isObject(newValue)) {
+      diff.push({
         name: key,
-        status: nested,
-        children: keyBag.map(
-          (_key) => inner(_key, node1[_key], node2[_key], node1, node2)
-        )
-      };
-    }
-    if (!_.keys(parentNode1).includes(key)) {
-      return {
+        type: nested,
+        children: buildDiffTree(oldValue, newValue)
+      });
+    } else if (!_.keys(node1).includes(key)) {
+      diff.push({
         name: key,
-        status: added,
-        oldValue: node1,
-        newValue: node2
-      };
-    }
-    if (!_.keys(parentNode2).includes(key)) {
-      return {
+        type: added,
+        oldValue: null,
+        newValue: newValue,
+      });
+    } else if (!_.keys(node2).includes(key)) {
+      diff.push({
         name: key,
-        status: removed,
-        oldValue: node1,
-        newValue: node2
-      }
-    }
-    if (parentNode1[key] === parentNode2[key]) {
-      return {
+        type: removed,
+        oldValue: oldValue,
+        newValue: null,
+      });
+    } else if (oldValue !== newValue) {
+      diff.push({
         name: key,
-        status: unchanged,
-        oldValue: node1,
-        newValue: node2
-      };
-    }
-    if (parentNode1[key] !== parentNode2[key]) {
-      return {
+        type: changed,
+        oldValue: oldValue,
+        newValue: newValue,
+      });
+    } else {
+      diff.push({
         name: key,
-        status: changed,
-        oldValue: node1,
-        newValue: node2
-      };
+        type: unchanged,
+        oldValue: oldValue,
+        newValue: newValue,
+      });
     }
   }
 
-  return inner('root', data1, data2);
+  return diff
 };
 
-export default buildTree;
+export default buildDiffTree;
