@@ -8,7 +8,7 @@
   "name": "@hexlet/code",
   "description": "[![Actions Status](https://github.com/mnogom/frontend-project-lvl2/workflows/hexlet-check/badge.svg)](https://github.com/mnogom/frontend-project-lvl2/actions)",
   "version": "1.0.1",
-  "main": "main/index.js",
+  "main": "bin/gendiff.js",
   "scripts": {
     "test": "npx jest"
   },
@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/mnogom/frontend-project-lvl2#readme",
   "devDependencies": {
+    "@jest/globals": "^28.1.3",
     "eslint": "^8.20.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.26.0",

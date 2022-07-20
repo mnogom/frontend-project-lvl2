@@ -10,7 +10,7 @@ const nested = 'nested';
 const buildTree = (data1, data2) => {
   const inner = (key, node1, node2, parentNode1, parentNode2) => {
     if (_.isObject(node1) && _.isObject(node2)) {
-      let keyBag = _.union(_.keys(node1), _.keys(node2))
+      let keyBag = _.union(_.keys(node1), _.keys(node2)).sort()
       return {
         name: key,
         status: nested,
@@ -57,15 +57,3 @@ const buildTree = (data1, data2) => {
 };
 
 export default buildTree;
-
-
-// import readFile from './file_manager.js';
-// import renderJson from './renders/json.js';
-// import renderPlain from './renders/plain.js';
-
-
-// const f1 = readFile('fixtures/plain/file1.json');
-// const f2 = readFile('fixtures/plain/file2.json');
-// const diff = buildTree(f1, f2)
-
-console.log(diff)
