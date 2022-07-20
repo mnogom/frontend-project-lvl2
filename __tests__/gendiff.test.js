@@ -1,10 +1,10 @@
-const reverse = (str) => str.split('').reverse().join('');
+import readFile from './src/file_manager.js';
+import buildTree from './src/diff_tree.js';
 
-test('reverse', () => {
-  expect(reverse('hello')).toEqual('olleh');
-  expect(reverse('')).toEqual('');
-});
+
+const data1 = readFile('./fixtures/file1.json')
+const data2 = readFile('./fixtures/file2.json')
 
 test('abc', () => {
-  expect('abc').toEqual('abc')
+  expect(data1).toMatchObject(data2)
 });

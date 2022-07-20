@@ -14,4 +14,4 @@ sys-install:
 	npm link
 
 make test:
-	npx jest
+	npm test
