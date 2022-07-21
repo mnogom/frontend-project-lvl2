@@ -24,11 +24,10 @@ const makeIndent = (indentLength) => Array(indentLength).fill(' ').join('');
  */
 const stringifyValue = (value, indentLength) => {
   if (_.isObject(value)) {
-    let result = '';
     const indent = makeIndent(indentLength + indentStep);
-    _.forIn(value, (v, k) => {
-      result += `${indent}  ${k}: ${stringifyValue(v, indentLength + indentStep)}\n`;
-    });
+    const result = _.map(value, (v, k) => (
+      `${indent}  ${k}: ${stringifyValue(v, indentLength + indentStep)}\n`
+    )).join('\n');
     return `{\n${result}\n${makeIndent(indentLength + indentStep / 2)}}`;
   }
   return String(value);
