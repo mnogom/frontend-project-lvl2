@@ -4,7 +4,7 @@ import { program } from 'commander';
  * Parse CLI arguments
  * @returns {string[]}
  */
-export default () => {
+const parseArgs = () => {
   program
     .name('gendiff')
     .description('Compares two configuration files and shows a difference.')
@@ -15,6 +15,8 @@ export default () => {
 
   program.parse();
   const [filepath1, filepath2] = program.args;
-  const format = program.opts().format;
-  return [filepath1, filepath2, format]
-}
+  const { format } = program.opts();
+  return [filepath1, filepath2, format];
+};
+
+export default parseArgs;

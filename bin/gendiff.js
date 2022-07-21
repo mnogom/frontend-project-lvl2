@@ -1,5 +1,6 @@
-import cli from "../src/cli.js";
-import genDiff from "../src/index.js";
+#!/usr/bin/env node
 
-const [filepath1, filepath2, format] = cli()
-genDiff(filepath1, filepath2)
+import { parseArgs, genDiff } from '../index.js'
+
+const [filepath1, filepath2, format] = parseArgs();
+console.log(genDiff(filepath1, filepath2, format));

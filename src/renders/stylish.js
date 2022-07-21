@@ -1,21 +1,57 @@
-import _ from "lodash";
-import { added, removed, changed, unchanged, nested } from "../diff_tree.js";
+import _ from 'lodash';
+import {
+  added, removed, changed, unchanged, nested,
+} from '../diff_tree.js';
 
 const addedMarker = '+';
 const removedMarker = '-';
-const unchagedMarker = ' '
+const unchagedMarker = ' ';
+const indentStep = 4;
 
-const parentTemp = '{indent}{marker} {name}: {\n{children}\n{indent}  }';
-const childTemp = '{indent}{status} {name}: {value}'
+/**
+ * Make indent
+ * @param {Number} indentLength 
+ * @returns {String}
+ */
+const makeIndent = (indentLength) => Array(indentLength).fill(' ').join('');
 
-const stringifyValue = (value) => _.isObject(value) ? JSON.stringify(value, undefined, indentLength + 2) : value;
+/**
+ * Clean string
+ * @param {String} str
+ * @returns {String}
+ */
+const strip = (str) => str.split('\n').filter((el) => el !== '').join('\n');
 
+/**
+ * Convert value to string
+ * @param {any} value 
+ * @param {Number} indentLength 
+ * @returns String
+ */
+const stringifyValue = (value, indentLength) => {
+  if (_.isObject(value)) {
+    let result = '';
+    const indent = makeIndent(indentLength + indentStep);
+    _.forIn(value, (v, k) => {
+      result += `${indent}  ${k}: ${stringifyValue(v, indentLength + indentStep)}\n`;
+    });
+    return `{\n${result}\n${makeIndent(indentLength + indentStep / 2)}}`;
+  }
+  return String(value);
+};
 
-const stringifyData = (data, indentLength=2) => {
-  let result = ''
-  const indent = Array(indentLength).fill(' ').join('')
+/**
+ * Prepare data in stylish format
+ * @param {Object} data 
+ * @param {Number} indentLength 
+ * @returns {String}
+ */
+const stringifyData = (data, indentLength = 2) => {
+  let result = '';
+  const indent = makeIndent(indentLength);
 
-  for (let node of data) {
+  // eslint-disable-next-line
+  for (const node of data) {
     switch (node.type) {
       case unchanged:
         result += `${indent}${unchagedMarker} ${node.name}: ${stringifyValue(node.oldValue, indentLength)}\n`;
@@ -25,13 +61,13 @@ const stringifyData = (data, indentLength=2) => {
         break;
       case added:
         result += `${indent}${addedMarker} ${node.name}: ${stringifyValue(node.newValue, indentLength)}\n`;
-        break
+        break;
       case changed:
         result += `${indent}${removedMarker} ${node.name}: ${stringifyValue(node.oldValue, indentLength)}\n`;
-        result += `${indent}${addedMarker} ${node.name}: ${stringifyValue(node.oldValue, indentLength)}\n`;
-        break
+        result += `${indent}${addedMarker} ${node.name}: ${stringifyValue(node.newValue, indentLength)}\n`;
+        break;
       case nested:
-        result += `${indent}${unchagedMarker} ${node.name}: {\n${stringifyData(node.children, indentLength + 4)}\n${indent}  }\n`;
+        result += `${indent}${unchagedMarker} ${node.name}: {\n${stringifyData(node.children, indentLength + indentStep)}\n${indent}  }\n`;
         break;
       default:
         throw Error(`type '${node.type}' is not specified`);
@@ -41,6 +77,11 @@ const stringifyData = (data, indentLength=2) => {
   return result;
 };
 
-const renderStylish = (data) => `{\n${stringifyData(data)}}`
+/**
+ * Return data rendered in stylish format
+ * @param {Object} data
+ * @returns {String}
+ */
+const renderStylish = (data) => strip(`{\n${stringifyData(data)}}`);
 
 export default renderStylish;
