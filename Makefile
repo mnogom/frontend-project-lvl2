@@ -1,20 +1,23 @@
 install:
 	npm ci
 
-brain-games:
-	node bin/brain-games.js
-
 publish:
 	npm publish --dry-run
 
 lint:
-	npx eslint .
+	npm run lint
+
+lint-fix:
+	npm run lint-fix
 
 sys-install:
 	npm link
 
-make test:
-	npm test
+test:
+	npm run test
 
-make test-watch:
-	npx jest --watchAll
+test-watch:
+	npm run test-watch
+
+coverage:
+	npm run coverage

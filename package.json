@@ -10,7 +10,11 @@
   "version": "1.0.1",
   "main": "bin/gendiff.js",
   "scripts": {
-    "test": "npx jest"
+    "test": "npx jest",
+    "test-watch": "npx jest --watchAll",
+    "coverage": "npx jest --coverage",
+    "lint": "npx eslint .",
+    "lint-fix": "npx eslint . --fix"
   },
   "repository": {
     "type": "git",
