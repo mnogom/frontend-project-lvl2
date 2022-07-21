@@ -4,7 +4,7 @@ import yaml from 'js-yaml';
 
 /**
  * Get object from file
- * @param {String} filepath 
+ * @param {String} filepath
  * @returns {Object}
  */
 const readFile = (filepath) => {

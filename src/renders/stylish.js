@@ -10,7 +10,7 @@ const indentStep = 4;
 
 /**
  * Make indent
- * @param {Number} indentLength 
+ * @param {Number} indentLength
  * @returns {String}
  */
 const makeIndent = (indentLength) => Array(indentLength).fill(' ').join('');
@@ -24,8 +24,8 @@ const strip = (str) => str.split('\n').filter((el) => el !== '').join('\n');
 
 /**
  * Convert value to string
- * @param {any} value 
- * @param {Number} indentLength 
+ * @param {any} value
+ * @param {Number} indentLength
  * @returns String
  */
 const stringifyValue = (value, indentLength) => {
@@ -42,8 +42,8 @@ const stringifyValue = (value, indentLength) => {
 
 /**
  * Prepare data in stylish format
- * @param {Object} data 
- * @param {Number} indentLength 
+ * @param {Object} data
+ * @param {Number} indentLength
  * @returns {String}
  */
 const stringifyData = (data, indentLength = 2) => {

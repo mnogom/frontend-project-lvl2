@@ -8,8 +8,8 @@ export const nested = 'nested';
 
 /**
  * Build tree with differences between two input data
- * @param {Object} node1 
- * @param {Object} node2 
+ * @param {Object} node1
+ * @param {Object} node2
  * @returns {Object}
  */
 const buildDiffTree = (node1, node2) => {

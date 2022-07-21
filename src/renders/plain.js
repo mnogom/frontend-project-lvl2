@@ -5,7 +5,7 @@ import {
 
 /**
  * Convert value to string
- * @param {any} value 
+ * @param {any} value
  * @returns {String}
  */
 const stringifyValue = (value) => {
@@ -20,8 +20,8 @@ const stringifyValue = (value) => {
 
 /**
  * Prepare data in plain format
- * @param {Object} data 
- * @param {String} path 
+ * @param {Object} data
+ * @param {String} path
  * @returns {String}
  */
 const stringifyData = (data, path) => {
@@ -53,7 +53,7 @@ const stringifyData = (data, path) => {
 
 /**
  * Return data rendered in plain format
- * @param {Object} data 
+ * @param {Object} data
  * @returns {String}
  */
 const renderPlain = (data) => stringifyData(data).slice(0, -1);

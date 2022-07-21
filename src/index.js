@@ -4,9 +4,9 @@ import getRender from './renders/get_render.js';
 
 /**
  * Generate differences between two structures from file
- * @param {String} filepath1 
- * @param {String} filepath2 
- * @param {String} style 
+ * @param {String} filepath1
+ * @param {String} filepath2
+ * @param {String} style
  * @returns {String}
  */
 const genDiff = (filepath1, filepath2, style = 'stylish') => {

@@ -4,7 +4,7 @@ import renderStylish from './stylish.js';
 
 /**
  * Return render by selected type
- * @param {String} type 
+ * @param {String} type
  * @returns {Function}
  */
 const getRender = (type) => {
