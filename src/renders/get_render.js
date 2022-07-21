@@ -3,21 +3,16 @@ import renderPlain from './plain.js';
 import renderStylish from './stylish.js';
 
 /**
- * Return render by selected type
+ * Return render
  * @param {String} type
  * @returns {Function}
  */
-const getRender = (type) => {
-  switch (type) {
-    case 'json':
-      return renderJson;
-    case 'plain':
-      return renderPlain;
-    case 'stylish':
-      return renderStylish;
-    default:
-      throw Error(`Render type "${type}" is undefind`);
-  }
-};
+const getRender = (type) => (
+  {
+    json: renderJson,
+    plain: renderPlain,
+    stylish: renderStylish
+  }[type]
+);
 
 export default getRender;

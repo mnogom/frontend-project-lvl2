@@ -8,11 +8,13 @@ import yaml from 'js-yaml';
  * @returns {Object}
  */
 const readFile = (filepath) => {
+  const ext = path.extname(filepath).substring(1).toLowerCase();
   const rawData = fs.readFileSync(filepath);
-  if (path.extname(filepath).toLowerCase() === '.json') {
-    return JSON.parse(rawData);
-  }
-  return yaml.load(rawData);
+  return {
+    json: JSON.parse,
+    yml: yaml.load,
+    yaml: yaml.load
+  }[ext](rawData)
 };
 
 export default readFile;
