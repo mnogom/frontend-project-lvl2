@@ -3,39 +3,39 @@ import fs from 'fs';
 import { test, expect } from '@jest/globals';
 import genDiff from '../src/index.js';
 
-const jsonFirstCaseInputFilepath1 = './__tests__/fixtures/case-1/file1.json';
-const jsonFirstCaseInputFilepath2 = './__tests__/fixtures/case-1/file2.json';
-const ymlFirstCaseInputFilepath1 = './__tests__/fixtures/case-1/file1.json';
-const ymlFirstCaseInputFilepath2 = './__tests__/fixtures/case-1/file2.json';
+const jsonFirstCaseInputFilepath1 = './__tests__/__fixtures__/case-1/file1.json';
+const jsonFirstCaseInputFilepath2 = './__tests__/__fixtures__/case-1/file2.json';
+const ymlFirstCaseInputFilepath1 = './__tests__/__fixtures__/case-1/file1.json';
+const ymlFirstCaseInputFilepath2 = './__tests__/__fixtures__/case-1/file2.json';
 
-const jsonSecondCaseInputFilepath1 = './__tests__/fixtures/case-2/file1.json';
-const jsonSecondCaseInputFilepath2 = './__tests__/fixtures/case-2/file2.json';
-const ymlSecondCaseInputFilepath1 = './__tests__/fixtures/case-2/file1.json';
-const ymlSecondCaseInputFilepath2 = './__tests__/fixtures/case-2/file2.json';
+const jsonSecondCaseInputFilepath1 = './__tests__/__fixtures__/case-2/file1.json';
+const jsonSecondCaseInputFilepath2 = './__tests__/__fixtures__/case-2/file2.json';
+const ymlSecondCaseInputFilepath1 = './__tests__/__fixtures__/case-2/file1.json';
+const ymlSecondCaseInputFilepath2 = './__tests__/__fixtures__/case-2/file2.json';
 
 const outputFirstCaseJsonFormat = fs.readFileSync(
-  './__tests__/fixtures/case-1/json-diff.json',
+  './__tests__/__fixtures__/case-1/json-diff.json',
   { encoding: 'utf8', flag: 'r' },
 );
 const outputFirstCasePlainFormat = fs.readFileSync(
-  './__tests__/fixtures/case-1/plain-diff.txt',
+  './__tests__/__fixtures__/case-1/plain-diff.txt',
   { encoding: 'utf8', flag: 'r' },
 );
 const outputFirstCaseStylishFormat = fs.readFileSync(
-  './__tests__/fixtures/case-1/stylish-diff.txt',
+  './__tests__/__fixtures__/case-1/stylish-diff.txt',
   { encoding: 'utf8', flag: 'r' },
 );
 
 const outputSecondCaseJsonFormat = fs.readFileSync(
-  './__tests__/fixtures/case-2/json-diff.json',
+  './__tests__/__fixtures__/case-2/json-diff.json',
   { encoding: 'utf8', flag: 'r' },
 );
 const outputSecondCasePlainFormat = fs.readFileSync(
-  './__tests__/fixtures/case-2/plain-diff.txt',
+  './__tests__/__fixtures__/case-2/plain-diff.txt',
   { encoding: 'utf8', flag: 'r' },
 );
 const outputSecondCaseStylishFormat = fs.readFileSync(
-  './__tests__/fixtures/case-2/stylish-diff.txt',
+  './__tests__/__fixtures__/case-2/stylish-diff.txt',
   { encoding: 'utf8', flag: 'r' },
 );
 

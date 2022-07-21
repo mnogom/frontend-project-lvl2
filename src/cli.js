@@ -2,7 +2,7 @@ import { program } from 'commander';
 
 /**
  * Parse CLI arguments
- * @returns {string[]}
+ * @returns {String[]}
  */
 const parseArgs = () => {
   program
