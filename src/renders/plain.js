@@ -1,6 +1,7 @@
 import _ from 'lodash';
+import strip from './utils.js';
 import {
-  added, removed, changed, nested,
+  added, removed, changed, nested, unchanged,
 } from '../diff_tree.js';
 
 /**
@@ -9,53 +10,40 @@ import {
  * @returns {String}
  */
 const stringifyValue = (value) => {
-  if (_.isObject(value)) {
-    return '[complex value]';
-  }
-  if (_.isString(value)) {
-    return `'${value}'`;
-  }
-  return String(value);
-};
-
-/**
- * Prepare data in plain format
- * @param {Object} data
- * @param {String} path
- * @returns {String}
- */
-const stringifyData = (data, path) => {
-  let result = '';
-  // eslint-disable-next-line
-  for (const node of data) {
-    const fullpath = path ? `${path}.${node.key}` : node.key;
-
-    switch (node.type) {
-      case nested:
-        result += stringifyData(node.children, fullpath);
-        break;
-      case added:
-        result += `Property '${fullpath}' was added with value: ${stringifyValue(node.newValue)}\n`;
-        break;
-      case removed:
-        result += `Property '${fullpath}' was removed\n`;
-        break;
-      case changed:
-        result += `Property '${fullpath}' was updated. From ${stringifyValue(node.oldValue)} to ${stringifyValue(node.newValue)}\n`;
-        break;
-      default:
-        break;
-    }
-  }
-
-  return result;
+  if (_.isObject(value)) return '[complex value]';
+  if (_.isString(value)) return `'${value}'`;
+  return `${value}`;
 };
 
 /**
  * Return data rendered in plain format
  * @param {Object} data
+ * @param {String} path
  * @returns {String}
  */
-const renderPlain = (data) => stringifyData(data).slice(0, -1);
+const renderPlain = (data, path) => (
+  strip(
+    data.map((node) => {
+      const fullpath = path ? `${path}.${node.key}` : node.key;
+
+      if (node.type === nested) {
+        return renderPlain(node.children, fullpath);
+      }
+      if (node.type === added) {
+        return `Property '${fullpath}' was added with value: ${stringifyValue(node.newValue)}`;
+      }
+      if (node.type === removed) {
+        return `Property '${fullpath}' was removed`;
+      }
+      if (node.type === changed) {
+        return `Property '${fullpath}' was updated. From ${stringifyValue(node.oldValue)} to ${stringifyValue(node.newValue)}`;
+      }
+      if (node.type === unchanged) {
+        return '';
+      }
+      throw Error(`Unknown type '${node.type}'`);
+    }).join('\n'),
+  )
+);
 
 export default renderPlain;

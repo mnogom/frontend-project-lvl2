@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import strip from './utils.js';
 import {
   added, removed, changed, unchanged, nested,
 } from '../diff_tree.js';
@@ -14,13 +15,6 @@ const indentStep = 4;
  * @returns {String}
  */
 const makeIndent = (indentLength) => Array(indentLength).fill(' ').join('');
-
-/**
- * Clean string
- * @param {String} str
- * @returns {String}
- */
-const strip = (str) => str.split('\n').filter((el) => el !== '').join('\n');
 
 /**
  * Convert value to string
@@ -46,42 +40,36 @@ const stringifyValue = (value, indentLength) => {
  * @param {Number} indentLength
  * @returns {String}
  */
-const stringifyData = (data, indentLength = 2) => {
-  let result = '';
-  const indent = makeIndent(indentLength);
-
-  // eslint-disable-next-line
-  for (const node of data) {
-    switch (node.type) {
-      case unchanged:
-        result += `${indent}${unchagedMarker} ${node.key}: ${stringifyValue(node.oldValue, indentLength)}\n`;
-        break;
-      case removed:
-        result += `${indent}${removedMarker} ${node.key}: ${stringifyValue(node.oldValue, indentLength)}\n`;
-        break;
-      case added:
-        result += `${indent}${addedMarker} ${node.key}: ${stringifyValue(node.newValue, indentLength)}\n`;
-        break;
-      case changed:
-        result += `${indent}${removedMarker} ${node.key}: ${stringifyValue(node.oldValue, indentLength)}\n`;
-        result += `${indent}${addedMarker} ${node.key}: ${stringifyValue(node.newValue, indentLength)}\n`;
-        break;
-      case nested:
-        result += `${indent}${unchagedMarker} ${node.key}: {\n${stringifyData(node.children, indentLength + indentStep)}\n${indent}  }\n`;
-        break;
-      default:
-        throw Error(`type '${node.type}' is not specified`);
-    }
-  }
-
-  return result;
-};
+const stringifyData = (data, indentLength = 2) => (
+  strip(
+    data.map((node) => {
+      const indent = makeIndent(indentLength);
+      if (node.type === removed) {
+        return `${indent}${removedMarker} ${node.key}: ${stringifyValue(node.oldValue, indentLength)}\n`;
+      }
+      if (node.type === added) {
+        return `${indent}${addedMarker} ${node.key}: ${stringifyValue(node.newValue, indentLength)}\n`;
+      }
+      if (node.type === changed) {
+        const result = `${indent}${removedMarker} ${node.key}: ${stringifyValue(node.oldValue, indentLength)}\n`;
+        return `${result}\n${indent}${addedMarker} ${node.key}: ${stringifyValue(node.newValue, indentLength)}\n`;
+      }
+      if (node.type === nested) {
+        return `${indent}${unchagedMarker} ${node.key}: {\n${stringifyData(node.children, indentLength + indentStep)}\n${indent}  }\n`;
+      }
+      if (node.type === unchanged) {
+        return `${indent}${unchagedMarker} ${node.key}: ${stringifyValue(node.oldValue, indentLength)}\n`;
+      }
+      throw Error(`Unknown type '${node.type}'`);
+    }).join('\n'),
+  )
+);
 
 /**
  * Return data rendered in stylish format
  * @param {Object} data
  * @returns {String}
  */
-const renderStylish = (data) => strip(`{\n${stringifyData(data)}}`);
+const renderStylish = (data) => `{\n${stringifyData(data)}\n}`;
 
 export default renderStylish;
