@@ -7,8 +7,11 @@
   "type": "module",
   "name": "@hexlet/code",
   "description": "[![Actions Status](https://github.com/mnogom/frontend-project-lvl2/workflows/hexlet-check/badge.svg)](https://github.com/mnogom/frontend-project-lvl2/actions)",
-  "version": "1.0.1",
-  "main": "bin/gendiff.js",
+  "version": "1.0.2",
+  "bin": {
+    "gendiff": "bin/gendiff.js"
+  },
+  "main": "src/index.js",
   "scripts": {
     "test": "npx jest",
     "test-watch": "npx jest --watchAll",

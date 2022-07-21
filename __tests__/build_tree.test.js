@@ -2,7 +2,7 @@ import { test, expect } from '@jest/globals';
 
 import buildDiffTree from '../src/diff_tree.js';
 
-test('test plain', () => {
+test('build plain tree', () => {
   const data1 = {
     host: 'hexlet.io',
     timeout: 50,
@@ -18,26 +18,26 @@ test('test plain', () => {
 
   const expectedObject = [
     {
-      name: 'follow', type: 'removed', oldValue: false, newValue: null,
+      key: 'follow', type: 'removed', oldValue: false, newValue: null,
     },
     {
-      name: 'host', type: 'unchanged', oldValue: 'hexlet.io', newValue: 'hexlet.io',
+      key: 'host', type: 'unchanged', oldValue: 'hexlet.io', newValue: 'hexlet.io',
     },
     {
-      name: 'proxy', type: 'removed', oldValue: '123.234.53.22', newValue: null,
+      key: 'proxy', type: 'removed', oldValue: '123.234.53.22', newValue: null,
     },
     {
-      name: 'timeout', type: 'changed', oldValue: 50, newValue: 20,
+      key: 'timeout', type: 'changed', oldValue: 50, newValue: 20,
     },
     {
-      name: 'verbose', type: 'added', oldValue: null, newValue: true,
+      key: 'verbose', type: 'added', oldValue: null, newValue: true,
     },
   ];
 
   expect(buildDiffTree(data1, data2)).toMatchObject(expectedObject);
 });
 
-test('test recursive', () => {
+test('build recursive tree', () => {
   const data1 = {
     common: {
       setting1: 'Value 1',
@@ -85,70 +85,70 @@ test('test recursive', () => {
 
   const expectedObject = [
     {
-      name: 'common',
+      key: 'common',
       type: 'nested',
       children: [
         {
-          name: 'follow', type: 'added', oldValue: null, newValue: false,
+          key: 'follow', type: 'added', oldValue: null, newValue: false,
         },
         {
-          name: 'setting1', type: 'unchanged', oldValue: 'Value 1', newValue: 'Value 1',
+          key: 'setting1', type: 'unchanged', oldValue: 'Value 1', newValue: 'Value 1',
         },
         {
-          name: 'setting2', type: 'removed', oldValue: 200, newValue: null,
+          key: 'setting2', type: 'removed', oldValue: 200, newValue: null,
         },
         {
-          name: 'setting3', type: 'changed', oldValue: true, newValue: null,
+          key: 'setting3', type: 'changed', oldValue: true, newValue: null,
         },
         {
-          name: 'setting4', type: 'added', oldValue: null, newValue: 'blah blah',
+          key: 'setting4', type: 'added', oldValue: null, newValue: 'blah blah',
         },
         {
-          name: 'setting5', type: 'added', oldValue: null, newValue: { key5: 'value5' },
+          key: 'setting5', type: 'added', oldValue: null, newValue: { key5: 'value5' },
         },
         {
-          name: 'setting6',
+          key: 'setting6',
           type: 'nested',
           children: [
             {
-              name: 'doge',
+              key: 'doge',
               type: 'nested',
               children: [
                 {
-                  name: 'wow', type: 'changed', oldValue: '', newValue: 'so much',
+                  key: 'wow', type: 'changed', oldValue: '', newValue: 'so much',
                 },
               ],
             },
             {
-              name: 'key', type: 'unchanged', oldValue: 'value', newValue: 'value',
+              key: 'key', type: 'unchanged', oldValue: 'value', newValue: 'value',
             },
             {
-              name: 'ops', type: 'added', oldValue: null, newValue: 'vops',
+              key: 'ops', type: 'added', oldValue: null, newValue: 'vops',
             },
           ],
         },
       ],
     },
     {
-      name: 'group1',
+      key: 'group1',
       type: 'nested',
       children: [
         {
-          name: 'baz', type: 'changed', oldValue: 'bas', newValue: 'bars',
+          key: 'baz', type: 'changed', oldValue: 'bas', newValue: 'bars',
         },
         {
-          name: 'foo', type: 'unchanged', oldValue: 'bar', newValue: 'bar',
+          key: 'foo', type: 'unchanged', oldValue: 'bar', newValue: 'bar',
         },
         {
-          name: 'nest', type: 'changed', oldValue: { key: 'value' }, newValue: 'str',
+          key: 'nest', type: 'changed', oldValue: { key: 'value' }, newValue: 'str',
         },
       ],
     },
     {
-      name: 'group2', type: 'removed', oldValue: { abc: 12345, deep: { id: 45 } }, newValue: null,
+      key: 'group2', type: 'removed', oldValue: { abc: 12345, deep: { id: 45 } }, newValue: null,
     },
     {
-      name: 'group3', type: 'added', oldValue: null, newValue: { fee: 100500, deep: { id: { number: 45 } } },
+      key: 'group3', type: 'added', oldValue: null, newValue: { fee: 100500, deep: { id: { number: 45 } } },
     },
   ];
 

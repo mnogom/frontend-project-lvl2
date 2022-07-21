@@ -11,7 +11,7 @@ const getRender = (type) => (
   {
     json: renderJson,
     plain: renderPlain,
-    stylish: renderStylish
+    stylish: renderStylish,
   }[type]
 );
 

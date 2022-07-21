@@ -9,9 +9,7 @@ const parseArgs = () => {
     .name('gendiff')
     .description('Compares two configuration files and shows a difference.')
     .version('1.0.0')
-    .option('-f, --format <format>', 'set formatters of output', 'stylish')
-    .option('-c, --colors <colors>', '???')
-    .option('-b, --bail <bail>', '???')
+    .option('-f, --format <format>', 'output format', 'stylish')
     .argument('<filepath1>')
     .argument('<filepath2>');
 

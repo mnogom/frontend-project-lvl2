@@ -13,8 +13,8 @@ const readFile = (filepath) => {
   return {
     json: JSON.parse,
     yml: yaml.load,
-    yaml: yaml.load
-  }[ext](rawData)
+    yaml: yaml.load,
+  }[ext](rawData);
 };
 
 export default readFile;

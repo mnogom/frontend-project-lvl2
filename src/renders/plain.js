@@ -28,7 +28,7 @@ const stringifyData = (data, path) => {
   let result = '';
   // eslint-disable-next-line
   for (const node of data) {
-    const fullpath = path ? `${path}.${node.name}` : node.name;
+    const fullpath = path ? `${path}.${node.key}` : node.key;
 
     switch (node.type) {
       case nested:

@@ -54,20 +54,20 @@ const stringifyData = (data, indentLength = 2) => {
   for (const node of data) {
     switch (node.type) {
       case unchanged:
-        result += `${indent}${unchagedMarker} ${node.name}: ${stringifyValue(node.oldValue, indentLength)}\n`;
+        result += `${indent}${unchagedMarker} ${node.key}: ${stringifyValue(node.oldValue, indentLength)}\n`;
         break;
       case removed:
-        result += `${indent}${removedMarker} ${node.name}: ${stringifyValue(node.oldValue, indentLength)}\n`;
+        result += `${indent}${removedMarker} ${node.key}: ${stringifyValue(node.oldValue, indentLength)}\n`;
         break;
       case added:
-        result += `${indent}${addedMarker} ${node.name}: ${stringifyValue(node.newValue, indentLength)}\n`;
+        result += `${indent}${addedMarker} ${node.key}: ${stringifyValue(node.newValue, indentLength)}\n`;
         break;
       case changed:
-        result += `${indent}${removedMarker} ${node.name}: ${stringifyValue(node.oldValue, indentLength)}\n`;
-        result += `${indent}${addedMarker} ${node.name}: ${stringifyValue(node.newValue, indentLength)}\n`;
+        result += `${indent}${removedMarker} ${node.key}: ${stringifyValue(node.oldValue, indentLength)}\n`;
+        result += `${indent}${addedMarker} ${node.key}: ${stringifyValue(node.newValue, indentLength)}\n`;
         break;
       case nested:
-        result += `${indent}${unchagedMarker} ${node.name}: {\n${stringifyData(node.children, indentLength + indentStep)}\n${indent}  }\n`;
+        result += `${indent}${unchagedMarker} ${node.key}: {\n${stringifyData(node.children, indentLength + indentStep)}\n${indent}  }\n`;
         break;
       default:
         throw Error(`type '${node.type}' is not specified`);

@@ -13,52 +13,50 @@ export const nested = 'nested';
  * @returns {Object}
  */
 const buildDiffTree = (node1, node2) => {
-  const keyBag = _.union(_.keys(node1), _.keys(node2)).sort();
-  const diff = [];
+  const keyBag = _.sortBy(_.union(_.keys(node1), _.keys(node2)));
 
-  // eslint-disable-next-line
-  for (const key of keyBag) {
+  return keyBag.map((key) => {
     const oldValue = node1[key];
     const newValue = node2[key];
 
     if (_.isObject(oldValue) && _.isObject(newValue)) {
-      diff.push({
-        name: key,
+      return {
+        key,
         type: nested,
         children: buildDiffTree(oldValue, newValue),
-      });
-    } else if (!_.keys(node1).includes(key)) {
-      diff.push({
-        name: key,
+      };
+    }
+    if (!_.keys(node1).includes(key)) {
+      return {
+        key,
         type: added,
         oldValue: null,
         newValue,
-      });
-    } else if (!_.keys(node2).includes(key)) {
-      diff.push({
-        name: key,
+      };
+    }
+    if (!_.keys(node2).includes(key)) {
+      return {
+        key,
         type: removed,
         oldValue,
         newValue: null,
-      });
-    } else if (oldValue !== newValue) {
-      diff.push({
-        name: key,
+      };
+    }
+    if (oldValue !== newValue) {
+      return {
+        key,
         type: changed,
         oldValue,
         newValue,
-      });
-    } else {
-      diff.push({
-        name: key,
-        type: unchanged,
-        oldValue,
-        newValue,
-      });
+      };
     }
-  }
-
-  return diff;
+    return {
+      key,
+      type: unchanged,
+      oldValue,
+      newValue,
+    };
+  });
 };
 
 export default buildDiffTree;
