@@ -1,6 +1,6 @@
 import buildDiffTree from './diff_tree.js';
 import readFile from './file_manager.js';
-import getRender from './renders/get_render.js';
+import getRender from './renders/index.js';
 
 /**
  * Generate differences between two structures from file
