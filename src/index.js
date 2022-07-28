@@ -9,13 +9,12 @@ import getRender from './renders/get_render.js';
  * @param {String} style
  * @returns {String}
  */
-const genDiff = (filepath1, filepath2, style = 'stylish') => (
-  getRender(style)(
-    buildDiffTree(
-      readFile(filepath1),
-      readFile(filepath2),
-    ),
-  )
-);
+const genDiff = (filepath1, filepath2, style = 'stylish') => {
+  const file1 = readFile(filepath1);
+  const file2 = readFile(filepath2);
+  const render = getRender(style);
+
+  return render(buildDiffTree(file1, file2));
+};
 
 export default genDiff;
