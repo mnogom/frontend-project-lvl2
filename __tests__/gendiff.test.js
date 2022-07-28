@@ -21,5 +21,6 @@ test.each([
 ])('.gendiff(%s, %s, %s)', (fileFormat, style, expected) => {
   const filepath1 = getFixturePath('file1', fileFormat);
   const filepath2 = getFixturePath('file2', fileFormat);
-  expect(genDiff(filepath1, filepath2, style)).toBe(expected);
+  const result = genDiff(filepath1, filepath2, style);
+  expect(result).toBe(expected);
 });
