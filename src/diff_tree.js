@@ -13,24 +13,24 @@ export const nested = 'nested';
  * @returns {Object}
  */
 const buildDiffTree = (node1, node2) => {
-  const keyBag = _.sortBy(_.union(_.keys(node1), _.keys(node2)));
+  const allKeys = _.sortBy(_.union(_.keys(node1), _.keys(node2)));
 
-  return keyBag.map((key) => {
+  return allKeys.map((key) => {
     const oldValue = node1[key];
     const newValue = node2[key];
 
-    if (_.isObject(oldValue) && _.isObject(newValue)) {
-      return { key, type: nested, children: buildDiffTree(oldValue, newValue) };
-    }
     if (!_.keys(node1).includes(key)) {
       return {
-        key, type: added, oldValue: null, newValue,
+        key, type: added, newValue,
       };
     }
     if (!_.keys(node2).includes(key)) {
       return {
-        key, type: removed, oldValue, newValue: null,
+        key, type: removed, oldValue,
       };
+    }
+    if (_.isObject(oldValue) && _.isObject(newValue)) {
+      return { key, type: nested, children: buildDiffTree(oldValue, newValue) };
     }
     if (oldValue !== newValue) {
       return {
