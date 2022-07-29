@@ -26,22 +26,20 @@ const renderPlain = (data, path) => (
     data.map((node) => {
       const fullpath = path ? `${path}.${node.key}` : node.key;
 
-      if (node.type === nested) {
-        return renderPlain(node.children, fullpath);
+      switch (node.type) {
+        case nested:
+          return renderPlain(node.children, fullpath);
+        case added:
+          return `Property '${fullpath}' was added with value: ${stringifyValue(node.newValue)}`;
+        case removed:
+          return `Property '${fullpath}' was removed`;
+        case changed:
+          return `Property '${fullpath}' was updated. From ${stringifyValue(node.oldValue)} to ${stringifyValue(node.newValue)}`;
+        case unchanged:
+          return '';
+        default:
+          throw Error(`Unknown type '${node.type}'`);
       }
-      if (node.type === added) {
-        return `Property '${fullpath}' was added with value: ${stringifyValue(node.newValue)}`;
-      }
-      if (node.type === removed) {
-        return `Property '${fullpath}' was removed`;
-      }
-      if (node.type === changed) {
-        return `Property '${fullpath}' was updated. From ${stringifyValue(node.oldValue)} to ${stringifyValue(node.newValue)}`;
-      }
-      if (node.type === unchanged) {
-        return '';
-      }
-      throw Error(`Unknown type '${node.type}'`);
     }).join('\n'),
   )
 );

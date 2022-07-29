@@ -7,12 +7,17 @@ import renderStylish from './stylish.js';
  * @param {String} type
  * @returns {Function}
  */
-const getRender = (type) => (
-  {
-    json: renderJson,
-    plain: renderPlain,
-    stylish: renderStylish,
-  }[type]
-);
+const getRender = (type) => {
+  switch (type) {
+    case 'json':
+      return renderJson;
+    case 'plain':
+      return renderPlain;
+    case 'stylish':
+      return renderStylish;
+    default:
+      throw new Error('Unknown type');
+  }
+};
 
 export default getRender;

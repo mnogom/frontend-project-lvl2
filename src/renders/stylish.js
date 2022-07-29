@@ -43,23 +43,20 @@ const stringifyData = (data, indentLength = 2) => (
   strip(
     data.map((node) => {
       const indent = makeIndent(indentLength);
-      if (node.type === removed) {
-        return `${indent}${removedMarker} ${node.key}: ${stringifyValue(node.oldValue, indentLength)}\n`;
+      switch (node.type) {
+        case removed:
+          return `${indent}${removedMarker} ${node.key}: ${stringifyValue(node.oldValue, indentLength)}\n`;
+        case added:
+          return `${indent}${addedMarker} ${node.key}: ${stringifyValue(node.newValue, indentLength)}\n`;
+        case changed:
+          return `${indent}${removedMarker} ${node.key}: ${stringifyValue(node.oldValue, indentLength)}\n${indent}${addedMarker} ${node.key}: ${stringifyValue(node.newValue, indentLength)}\n`;
+        case nested:
+          return `${indent}${unchagedMarker} ${node.key}: {\n${stringifyData(node.children, indentLength + indentStep)}\n${indent}  }\n`;
+        case unchanged:
+          return `${indent}${unchagedMarker} ${node.key}: ${stringifyValue(node.oldValue, indentLength)}\n`;
+        default:
+          throw Error(`Unknown type '${node.type}'`);
       }
-      if (node.type === added) {
-        return `${indent}${addedMarker} ${node.key}: ${stringifyValue(node.newValue, indentLength)}\n`;
-      }
-      if (node.type === changed) {
-        const result = `${indent}${removedMarker} ${node.key}: ${stringifyValue(node.oldValue, indentLength)}\n`;
-        return `${result}\n${indent}${addedMarker} ${node.key}: ${stringifyValue(node.newValue, indentLength)}\n`;
-      }
-      if (node.type === nested) {
-        return `${indent}${unchagedMarker} ${node.key}: {\n${stringifyData(node.children, indentLength + indentStep)}\n${indent}  }\n`;
-      }
-      if (node.type === unchanged) {
-        return `${indent}${unchagedMarker} ${node.key}: ${stringifyValue(node.oldValue, indentLength)}\n`;
-      }
-      throw Error(`Unknown type '${node.type}'`);
     }).join('\n'),
   )
 );
