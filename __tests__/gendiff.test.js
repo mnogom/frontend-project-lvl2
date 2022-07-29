@@ -4,7 +4,7 @@ import path from 'path';
 import { test, expect } from '@jest/globals';
 import genDiff from '../src/index.js';
 
-const getFixturePath = (fixtureName, format) => path.join(`./__fixtures__/${fixtureName}.${format}`);
+const getFixturePath = (fixtureName, format) => path.join('.', '__fixtures__', `${fixtureName}.${format}`);
 const readFixture = (filepath) => fs.readFileSync(filepath, { encoding: 'utf-8', flag: 'r' });
 
 const outputJsonFormat = readFixture('./__fixtures__/json-diff.json');
