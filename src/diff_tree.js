@@ -13,9 +13,9 @@ export const nested = 'nested';
  * @returns {Object}
  */
 const buildDiffTree = (node1, node2) => {
-  const allKeys = _.sortBy(_.union(_.keys(node1), _.keys(node2)));
+  const sortedKeys = _.sortBy(_.union(_.keys(node1), _.keys(node2)));
 
-  return allKeys.map((key) => {
+  return sortedKeys.map((key) => {
     const oldValue = node1[key];
     const newValue = node2[key];
 

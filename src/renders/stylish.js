@@ -10,6 +10,13 @@ const unchagedMarker = ' ';
 const indentStep = 4;
 
 /**
+ * Get indnet length from depth
+ * @param {Number} depth
+ * @returns {Number}
+ */
+const getIndentLength = (depth) => 2 + depth * indentStep;
+
+/**
  * Make indent
  * @param {Number} indentLength
  * @returns {String}
@@ -22,11 +29,12 @@ const makeIndent = (indentLength) => Array(indentLength).fill(' ').join('');
  * @param {Number} indentLength
  * @returns String
  */
-const stringifyValue = (value, indentLength) => {
+const stringifyValue = (value, depth) => {
   if (_.isObject(value)) {
+    const indentLength = getIndentLength(depth);
     const indent = makeIndent(indentLength + indentStep);
     const result = _.map(value, (v, k) => (
-      `${indent}  ${k}: ${stringifyValue(v, indentLength + indentStep)}\n`
+      `${indent}  ${k}: ${stringifyValue(v, depth + 1)}\n`
     )).join('\n');
     return `{\n${result}\n${makeIndent(indentLength + indentStep / 2)}}`;
   }
@@ -39,21 +47,22 @@ const stringifyValue = (value, indentLength) => {
  * @param {Number} indentLength
  * @returns {String}
  */
-const stringifyData = (data, indentLength = 2) => (
+const stringifyData = (data, depth = 0) => (
   strip(
     data.map((node) => {
+      const indentLength = getIndentLength(depth);
       const indent = makeIndent(indentLength);
       switch (node.type) {
         case removed:
-          return `${indent}${removedMarker} ${node.key}: ${stringifyValue(node.oldValue, indentLength)}\n`;
+          return `${indent}${removedMarker} ${node.key}: ${stringifyValue(node.oldValue, depth)}\n`;
         case added:
-          return `${indent}${addedMarker} ${node.key}: ${stringifyValue(node.newValue, indentLength)}\n`;
+          return `${indent}${addedMarker} ${node.key}: ${stringifyValue(node.newValue, depth)}\n`;
         case changed:
-          return `${indent}${removedMarker} ${node.key}: ${stringifyValue(node.oldValue, indentLength)}\n${indent}${addedMarker} ${node.key}: ${stringifyValue(node.newValue, indentLength)}\n`;
+          return `${indent}${removedMarker} ${node.key}: ${stringifyValue(node.oldValue, depth)}\n${indent}${addedMarker} ${node.key}: ${stringifyValue(node.newValue, depth)}\n`;
         case nested:
-          return `${indent}${unchagedMarker} ${node.key}: {\n${stringifyData(node.children, indentLength + indentStep)}\n${indent}  }\n`;
+          return `${indent}${unchagedMarker} ${node.key}: {\n${stringifyData(node.children, depth + 1)}\n${indent}  }\n`;
         case unchanged:
-          return `${indent}${unchagedMarker} ${node.key}: ${stringifyValue(node.oldValue, indentLength)}\n`;
+          return `${indent}${unchagedMarker} ${node.key}: ${stringifyValue(node.oldValue, depth)}\n`;
         default:
           throw Error(`Unknown type '${node.type}'`);
       }

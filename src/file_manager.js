@@ -3,18 +3,36 @@ import path from 'path';
 import yaml from 'js-yaml';
 
 /**
+ * Get file fomat
+ * @param {String} filepath
+ * @returns {String}
+ */
+const getFileFormat = (filepath) => path.extname(filepath).substring(1).toLowerCase();
+
+/**
+ * Read file
+ * @param {String} filepath
+ */
+const readFile = (filepath) => fs.readFileSync(filepath);
+
+/**
  * Get object from file
  * @param {String} filepath
  * @returns {Object}
  */
-const readFile = (filepath) => {
-  const ext = path.extname(filepath).substring(1).toLowerCase();
-  const rawData = fs.readFileSync(filepath);
-  return {
-    json: JSON.parse,
-    yml: yaml.load,
-    yaml: yaml.load,
-  }[ext](rawData);
-};
+const parseFile = (filepath) => {
+  const ext = getFileFormat(filepath);
+  const rawData = readFile(filepath);
 
-export default readFile;
+  switch (ext) {
+    case "json":
+      return JSON.parse(rawData);
+    case "yml":
+    case "yaml":
+      return yaml.load(rawData);
+    default:
+      throw Error('Unknown file format.');
+  }
+}
+
+export default parseFile;
