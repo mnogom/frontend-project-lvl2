@@ -25,14 +25,14 @@ const parseFile = (filepath) => {
   const rawData = readFile(filepath);
 
   switch (ext) {
-    case "json":
+    case 'json':
       return JSON.parse(rawData);
-    case "yml":
-    case "yaml":
+    case 'yml':
+    case 'yaml':
       return yaml.load(rawData);
     default:
       throw Error('Unknown file format.');
   }
-}
+};
 
 export default parseFile;
