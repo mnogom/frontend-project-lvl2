@@ -31,7 +31,7 @@ const parseFile = (filepath) => {
     case 'yaml':
       return yaml.load(rawData);
     default:
-      throw Error('Unknown file format.');
+      throw Error(`'.${ext}' is unknown file format.`);
   }
 };
 

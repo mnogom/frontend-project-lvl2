@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import strip from './utils.js';
+import strip from '../utils.js';
 import {
   added, removed, changed, nested, unchanged,
 } from '../diff_tree.js';

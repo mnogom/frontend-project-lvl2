@@ -16,7 +16,7 @@ const getRender = (type) => {
     case 'stylish':
       return renderStylish;
     default:
-      throw new Error('Unknown type');
+      throw new Error(`${type} is unknown type for output.`);
   }
 };
 

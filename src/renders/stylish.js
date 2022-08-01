@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import strip from './utils.js';
+import strip from '../utils.js';
 import {
   added, removed, changed, unchanged, nested,
 } from '../diff_tree.js';
@@ -14,7 +14,7 @@ const indentStep = 4;
  * @param {Number} depth
  * @returns {Number}
  */
-const getIndentLength = (depth) => 2 + depth * indentStep;
+const getIndentLength = (depth) => 2 + (depth - 1) * indentStep;
 
 /**
  * Make indent
@@ -47,7 +47,7 @@ const stringifyValue = (value, depth) => {
  * @param {Number} indentLength
  * @returns {String}
  */
-const stringifyData = (data, depth = 0) => (
+const stringifyData = (data, depth = 1) => (
   strip(
     data.map((node) => {
       const indentLength = getIndentLength(depth);
